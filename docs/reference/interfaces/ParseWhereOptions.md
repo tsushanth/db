@@ -87,6 +87,22 @@ optional avg: (...args) => T;
 
 `T`
 
+##### caseWhen()?
+
+```ts
+optional caseWhen: (...args) => T;
+```
+
+###### Parameters
+
+###### args
+
+...`any`[]
+
+###### Returns
+
+`T`
+
 ##### coalesce()?
 
 ```ts

@@ -133,7 +133,7 @@ Defined in: [packages/db/src/transactions.ts:210](https://github.com/TanStack/db
 applyMutations(mutations): void;
 ```
 
-Defined in: [packages/db/src/transactions.ts:327](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L327)
+Defined in: [packages/db/src/transactions.ts:335](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L335)
 
 Apply new mutations to this transaction, intelligently merging with existing mutations
 
@@ -169,7 +169,7 @@ Array of new mutations to apply
 commit(): Promise<Transaction<T>>;
 ```
 
-Defined in: [packages/db/src/transactions.ts:472](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L472)
+Defined in: [packages/db/src/transactions.ts:480](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L480)
 
 Commit the transaction and execute the mutation function
 
@@ -228,7 +228,7 @@ console.log(tx.state) // "completed" or "failed"
 compareCreatedAt(other): number;
 ```
 
-Defined in: [packages/db/src/transactions.ts:526](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L526)
+Defined in: [packages/db/src/transactions.ts:534](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L534)
 
 Compare two transactions by their createdAt time and sequence number in order
 to sort them in the order they were created.
@@ -255,7 +255,7 @@ The other transaction to compare to
 mutate(callback): Transaction<T>;
 ```
 
-Defined in: [packages/db/src/transactions.ts:287](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L287)
+Defined in: [packages/db/src/transactions.ts:295](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L295)
 
 Execute collection operations within this transaction
 
@@ -265,9 +265,12 @@ Execute collection operations within this transaction
 
 () => `void`
 
-Function containing collection operations to group together. If the
-callback returns a Promise, the transaction context will remain active until the promise
-settles, allowing optimistic writes after `await` boundaries.
+Synchronous function containing collection operations to group together.
+The transaction context is active only for the synchronous duration of this callback.
+Async work should happen in `mutationFn`; collection operations after `await` boundaries
+inside this callback will not be part of this transaction. For manual transactions, call
+`mutate` multiple times before committing to add more synchronous operations to the same
+transaction.
 
 #### Returns
 
@@ -311,6 +314,11 @@ tx.mutate(() => {
   collection.insert({ id: "1", text: "Item" })
 })
 
+// Add more synchronous mutations to the same transaction
+tx.mutate(() => {
+  collection.update("1", draft => { draft.text = "Updated item" })
+})
+
 // Commit later when ready
 await tx.commit()
 ```
@@ -323,7 +331,7 @@ await tx.commit()
 rollback(config?): Transaction<T>;
 ```
 
-Defined in: [packages/db/src/transactions.ts:389](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L389)
+Defined in: [packages/db/src/transactions.ts:397](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L397)
 
 Rollback the transaction and any conflicting transactions
 
@@ -410,7 +418,7 @@ Defined in: [packages/db/src/transactions.ts:238](https://github.com/TanStack/db
 touchCollection(): void;
 ```
 
-Defined in: [packages/db/src/transactions.ts:417](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L417)
+Defined in: [packages/db/src/transactions.ts:425](https://github.com/TanStack/db/blob/main/packages/db/src/transactions.ts#L425)
 
 #### Returns
 

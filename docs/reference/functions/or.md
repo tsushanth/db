@@ -11,7 +11,7 @@ title: or
 function or(left, right): BasicExpression<boolean>;
 ```
 
-Defined in: [packages/db/src/query/builder/functions.ts:221](https://github.com/TanStack/db/blob/main/packages/db/src/query/builder/functions.ts#L221)
+Defined in: [packages/db/src/query/builder/functions.ts:244](https://github.com/TanStack/db/blob/main/packages/db/src/query/builder/functions.ts#L244)
 
 ### Parameters
 
@@ -36,7 +36,7 @@ function or(
 rest): BasicExpression<boolean>;
 ```
 
-Defined in: [packages/db/src/query/builder/functions.ts:225](https://github.com/TanStack/db/blob/main/packages/db/src/query/builder/functions.ts#L225)
+Defined in: [packages/db/src/query/builder/functions.ts:248](https://github.com/TanStack/db/blob/main/packages/db/src/query/builder/functions.ts#L248)
 
 ### Parameters
 
